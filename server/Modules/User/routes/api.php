@@ -14,6 +14,13 @@ use Modules\User\Http\Controllers\UserController;
  *
 */
 
-Route::middleware(['auth:sanctum'])->prefix('v1')->group(function () {
-    Route::apiResource('user', UserController::class)->names('user');
+Route::prefix('v1/user')->group(function () {
+    Route::post('register', [UserController::class,'store']);
+    Route::post('login', [UserController::class,'login']);
+    Route::middleware('auth:sanctum')->group( function () {
+        Route::get('show', [UserController::class,'show']);
+        Route::get('index', [UserController::class,'index']);
+        Route::get('logout', [UserController::class,'logout']);
+        Route::delete('delete/{id}', [UserController::class,'destroy']);
+    });
 });
