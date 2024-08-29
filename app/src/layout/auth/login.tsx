@@ -4,11 +4,9 @@ import {CustomRoute, RouterInterface} from '../../utils/router_component';
 import CheckBox from '@react-native-community/checkbox';
 interface Form {
   username: string;
-  email: string;
   password: string;
-  repassword: string;
 }
-class Register extends Component<RouterInterface> {
+class Login extends Component<RouterInterface> {
   state: Readonly<{
     form: Form;
     loading: boolean;
@@ -21,8 +19,6 @@ class Register extends Component<RouterInterface> {
       isChecked: false,
       form: {
         username: '',
-        repassword: '',
-        email: '',
         password: '',
       },
     };
@@ -96,11 +92,11 @@ class Register extends Component<RouterInterface> {
                 }}
               />
               <TextInput
-                defaultValue={this.state.form.email}
+                defaultValue={this.state.form.username}
                 inputMode="text"
                 onChangeText={value => {
                   this.setState((prevState: any) => ({
-                    form: {...prevState.form, email: value},
+                    form: {...prevState.form, username: value},
                   }));
                 }}
                 style={{
@@ -127,46 +123,6 @@ class Register extends Component<RouterInterface> {
               }}>
               <Image
                 source={{
-                  uri: 'https://img.icons8.com/material-rounded/24/new-post.png',
-                }}
-                style={{
-                  width: 20,
-                  height: 20,
-                  resizeMode: 'contain',
-                }}
-              />
-              <TextInput
-                defaultValue={this.state.form.email}
-                inputMode="text"
-                onChangeText={value => {
-                  this.setState((prevState: any) => ({
-                    form: {...prevState.form, email: value},
-                  }));
-                }}
-                style={{
-                  height: 50,
-                  flex: 1,
-                  color: 'black',
-                  paddingLeft: 12,
-                  fontSize: 17,
-                }}
-                placeholderTextColor={'gray'}
-                placeholder="Email"
-              />
-            </View>
-            <View
-              style={{
-                borderWidth: 1,
-                borderColor: 'gray',
-                flexDirection: 'row',
-                justifyContent: 'center',
-                alignItems: 'center',
-                paddingLeft: 5,
-                marginBottom: 15,
-                borderRadius: 6,
-              }}>
-              <Image
-                source={{
                   uri: 'https://img.icons8.com/material-rounded/24/lock--v1.png',
                 }}
                 style={{
@@ -176,11 +132,12 @@ class Register extends Component<RouterInterface> {
                 }}
               />
               <TextInput
-                defaultValue={this.state.form.email}
+                defaultValue={this.state.form.password}
                 inputMode="text"
+                secureTextEntry={true}
                 onChangeText={value => {
                   this.setState((prevState: any) => ({
-                    form: {...prevState.form, email: value},
+                    form: {...prevState.form, password: value},
                   }));
                 }}
                 style={{
@@ -194,48 +151,6 @@ class Register extends Component<RouterInterface> {
                 placeholder="Password"
               />
             </View>
-            <View
-              style={{
-                borderWidth: 1,
-                borderColor: 'gray',
-                flexDirection: 'row',
-                justifyContent: 'center',
-                alignItems: 'center',
-                paddingLeft: 5,
-                marginBottom: 15,
-                borderRadius: 6,
-              }}>
-              <Image
-                source={{
-                  uri: 'https://img.icons8.com/material-rounded/24/lock--v1.png',
-                }}
-                style={{
-                  width: 20,
-                  height: 20,
-                  resizeMode: 'contain',
-                }}
-              />
-              <TextInput
-                defaultValue={this.state.form.repassword}
-                inputMode="text"
-                secureTextEntry={true}
-                onChangeText={value => {
-                  this.setState((prevState: any) => ({
-                    form: {...prevState.form, repassword: value},
-                  }));
-                }}
-                style={{
-                  height: 50,
-                  color: 'black',
-                  flex: 1,
-                  paddingLeft: 12,
-                  fontSize: 17,
-                }}
-                placeholderTextColor={'gray'}
-                placeholder="Repeat Password"
-              />
-            </View>
-
             <View
               style={{
                 flexDirection: 'row',
@@ -252,10 +167,19 @@ class Register extends Component<RouterInterface> {
               />
               <Text
                 style={{
+                  flex: 1,
                   color: 'black',
                   fontSize: 16,
                 }}>
-                I agree to the Terms and Conditions
+                Remember Me
+              </Text>
+              <Text
+                style={{
+                  color: 'black',
+                  fontSize: 14,
+                  fontWeight: 700,
+                }}>
+                Forgot Password ?
               </Text>
             </View>
             <View
@@ -286,7 +210,7 @@ class Register extends Component<RouterInterface> {
                     color: 'white',
                     alignItems: 'center',
                   }}>
-                  SIGN UP
+                  SIGN IN
                 </Text>
               </Pressable>
               <Text
@@ -296,9 +220,10 @@ class Register extends Component<RouterInterface> {
                   textAlign: 'center',
                   color: 'black',
                 }}>
-                Already have on account ?
+                Don't you have on account?
               </Text>
-              <Pressable onPress={() => this.props.navigasi.navigate('Login')}>
+              <Pressable
+                onPress={() => this.props.navigasi.navigate('Register')}>
                 <Text
                   style={{
                     fontWeight: 'bold',
@@ -306,7 +231,7 @@ class Register extends Component<RouterInterface> {
                     textAlign: 'center',
                     color: 'black',
                   }}>
-                  Sign In from here
+                  Sign Up from here
                 </Text>
               </Pressable>
             </View>
@@ -316,4 +241,4 @@ class Register extends Component<RouterInterface> {
     );
   }
 }
-export default CustomRoute(Register);
+export default CustomRoute(Login);

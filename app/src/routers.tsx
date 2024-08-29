@@ -1,7 +1,8 @@
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import Index from './layout/auth/index.tsx';
 import Register from './layout/auth/register.tsx';
-// import Home from './layout/home/index.tsx';
+import Login from './layout/auth/login.tsx';
+import Dashboard from './layout/dashboard.tsx';
 // import History from './layout/history/index.tsx';
 // import Form from './layout/form/index.tsx';
 import SplashScreen from './layout/splashscreen.tsx';
@@ -32,12 +33,18 @@ function Router() {
         name="Register"
         component={Register}
       />
-      {/* <Stack.Screen
-        navigationKey="History"
-        name="History"
-        component={History}
+      <Stack.Screen
+        navigationKey="Login"
+        options={{animation: 'fade'}}
+        name="Login"
+        component={Login}
       />
       <Stack.Screen
+        navigationKey="Dashboard"
+        name="Dashboard"
+        component={Dashboard}
+      />
+      {/* <Stack.Screen
         navigationKey="Form"
         name="Form"
         options={{animation: 'fade'}}
