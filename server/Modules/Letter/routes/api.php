@@ -14,6 +14,9 @@ use Modules\Letter\Http\Controllers\LetterController;
  *
 */
 
-Route::middleware(['auth:sanctum'])->prefix('v1')->group(function () {
-    Route::apiResource('letter', LetterController::class)->names('letter');
+Route::middleware(['auth:sanctum'])->prefix('v1/letter')->group(function () {
+    Route::post('store', [LetterController::class,'store']);
+    Route::get('inletter', [LetterController::class,'myinLetter']);
+    Route::get('outletter', [LetterController::class,'myoutLetter']);
+    Route::post('disposisi', [LetterController::class,'update']);
 });

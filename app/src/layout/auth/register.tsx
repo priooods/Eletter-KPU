@@ -2,11 +2,15 @@ import React, {Component} from 'react';
 import {Image, Pressable, Text, TextInput, View} from 'react-native';
 import {CustomRoute, RouterInterface} from '../../utils/router_component';
 import CheckBox from '@react-native-community/checkbox';
+import client from '../../service';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {ALERT_TYPE, Toast} from 'react-native-alert-notification';
 interface Form {
   username: string;
   email: string;
   password: string;
   repassword: string;
+  m_access_tabs_id: number;
 }
 class Register extends Component<RouterInterface> {
   state: Readonly<{
@@ -24,8 +28,24 @@ class Register extends Component<RouterInterface> {
         repassword: '',
         email: '',
         password: '',
+        m_access_tabs_id: 1,
       },
     };
+  }
+
+  async authRegister() {
+    if (this.state.form.repassword !== this.state.form.password) {
+      Toast.show({
+        type: ALERT_TYPE.DANGER,
+        title: 'Password not match',
+        textBody: 'Periksa kembali password anda',
+      });
+      return;
+    }
+    await client.post('/user/register', this.state.form).then(async res => {
+      await AsyncStorage.setItem('token', res.data.response_data?.token);
+      return this.props.navigasi.navigate('Login');
+    });
   }
   render() {
     return (
@@ -96,11 +116,11 @@ class Register extends Component<RouterInterface> {
                 }}
               />
               <TextInput
-                defaultValue={this.state.form.email}
+                defaultValue={this.state.form.username}
                 inputMode="text"
                 onChangeText={value => {
                   this.setState((prevState: any) => ({
-                    form: {...prevState.form, email: value},
+                    form: {...prevState.form, username: value},
                   }));
                 }}
                 style={{
@@ -176,11 +196,12 @@ class Register extends Component<RouterInterface> {
                 }}
               />
               <TextInput
-                defaultValue={this.state.form.email}
+                defaultValue={this.state.form.password}
                 inputMode="text"
+                secureTextEntry={true}
                 onChangeText={value => {
                   this.setState((prevState: any) => ({
-                    form: {...prevState.form, email: value},
+                    form: {...prevState.form, password: value},
                   }));
                 }}
                 style={{
@@ -265,9 +286,7 @@ class Register extends Component<RouterInterface> {
               }}>
               <Pressable
                 disabled={!this.state.isChecked}
-                onPress={() => {
-                  this.props.navigasi.navigate('Register');
-                }}
+                onPress={() => this.authRegister()}
                 style={{
                   flexDirection: 'row',
                   justifyContent: 'center',

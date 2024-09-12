@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import {Image, Pressable, Text, TextInput, View} from 'react-native';
 import {CustomRoute, RouterInterface} from '../../utils/router_component';
 import CheckBox from '@react-native-community/checkbox';
+import client from '../../service';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 interface Form {
   username: string;
   password: string;
@@ -22,6 +24,14 @@ class Login extends Component<RouterInterface> {
         password: '',
       },
     };
+    this.login = this.login.bind(this);
+  }
+
+  login() {
+    client.post('/user/login', this.state.form).then(async res => {
+      await AsyncStorage.setItem('token', res.data.response_data?.token);
+      this.props.navigasi.navigate('Dashboard');
+    });
   }
   render() {
     return (
@@ -68,7 +78,7 @@ class Login extends Component<RouterInterface> {
                 color: 'black',
                 alignItems: 'center',
               }}>
-              Create Account
+              Sign In Now
             </Text>
             <View
               style={{
@@ -188,9 +198,8 @@ class Login extends Component<RouterInterface> {
                 width: '100%',
               }}>
               <Pressable
-                disabled={!this.state.isChecked}
                 onPress={() => {
-                  this.props.navigasi.navigate('Register');
+                  this.login();
                 }}
                 style={{
                   flexDirection: 'row',

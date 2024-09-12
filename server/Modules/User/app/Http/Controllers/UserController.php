@@ -24,7 +24,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        return view('user::index');
+        return $this->controller->respons('USER LIST', $this->mUserTab->where('id', '!=', auth()->user()->id)->get());
     }
 
     /**
@@ -55,6 +55,9 @@ class UserController extends Controller
             $tokens = $users->createToken('Angeline-KPU');
             return $this->controller->respons('USER CREATED', [
                 'token' => $tokens->plainTextToken
+            ], [
+                'title' => 'Akun Berhasil dibuat',
+                'body' => 'Selamat datang ' . $request->username,
             ]);
         } catch (\Throwable $th) {
             DB::rollBack();
@@ -72,7 +75,7 @@ class UserController extends Controller
 
         if (!Auth::attempt($credentials)) {
             abort(401, 'Informasi akun yang anda masukan salah !');
-        }
+        } 
 
         $tokenResult = auth()->user()->createToken('Angeline-UMKM');
         return $this->controller->respons('LOGIN SUKSES', 

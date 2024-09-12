@@ -1,7 +1,7 @@
 import {Component} from 'react';
 import {Image, Text, View} from 'react-native';
 import {RouterInterface, CustomRoute} from '../utils/router_component';
-// import AsyncStorage from '@react-native-async-storage/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 class SplashScreen extends Component<RouterInterface> {
   constructor(props: RouterInterface) {
@@ -9,15 +9,15 @@ class SplashScreen extends Component<RouterInterface> {
   }
 
   async componentDidMount() {
-    // await AsyncStorage.getItem('token').then(res => {
-    //   setTimeout(() => {
-    //     if (res == null) {
-    //       this.props.navigasi.navigate('Login');
-    //     } else {
-    //       this.props.navigasi.navigate('Home');
-    //     }
-    //   }, 2000);
-    // });
+    await AsyncStorage.getItem('token').then(res => {
+      setTimeout(() => {
+        if (res == null) {
+          this.props.navigasi.navigate('Login');
+        } else {
+          this.props.navigasi.navigate('Dashboard');
+        }
+      }, 2000);
+    });
   }
   render() {
     return (
